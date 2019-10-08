@@ -3,7 +3,7 @@
 
 ## 1. Desain dan Implementasi Infrasturktur
 ### Gambar Infrastruktur
-![Infrastruktur](infrastruktur.png)
+![infrastruktur](infrastruktur.png)
 
 ### Server
 Server yang digunakan sebanyak 5 buah, dengan perincian sebagai berikut:
