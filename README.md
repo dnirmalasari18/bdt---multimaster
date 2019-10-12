@@ -2,7 +2,7 @@
 05111640000115 Dewi Ayu Nirmalasari
 
 ## 1. Desain dan Implementasi Infrasturktur
-### Gambar Infrastruktur
+### A. Desain Infrastrukur Basis Data Terdistribusi
 ![infrastruktur](infrastruktur.PNG)
 
 ### Server
@@ -21,3 +21,21 @@ Sebanyak 1 buah, dengan spesifikasi:
 
 #### c. Web Server Apache
 Sebanyak 1 buah.
+
+### B. Implementasi Infrastruktur Basis Data Terdistribusi
+#### a. Proses Instalasi
+#### b. Tahapan konfirgurasi
+
+## 2. Penggunaan Basis Data Terdistribusi dalam Aplikasi
+LPencerdas merupakan aplikasi berbasis website milik Laboratorium Pemrograman 1 Informatika ITS yang dibuat menggunakan framework Laravel.
+### LPencerdas
+
+### Implementasi Basis Data Terdistribusi dalam Aplikasi
+Berikut langkah-langkah mengimplementasikan basis data terdistribusi dalam LPencerdas.
+1. Instalasi LPencerdas
+2. Mengubah file .env
+3. Menjalankan laravel migration dan seeding
+4. Menjalankan aplikasi
+
+
+## 3. Simulasi Fail Over
