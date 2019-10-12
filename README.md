@@ -27,9 +27,9 @@ Sebanyak 1 buah.
 #### b. Tahapan konfirgurasi
 
 ## 2. Penggunaan Basis Data Terdistribusi dalam Aplikasi
-LPencerdas merupakan aplikasi berbasis website milik Laboratorium Pemrograman 1 Informatika ITS yang dibuat menggunakan framework Laravel.
 ### LPencerdas
-
+LPencerdas merupakan aplikasi berbasis website milik Laboratorium Pemrograman 1 Informatika ITS yang dibuat menggunakan framework Laravel.
+![lpencerdas_1](screenshot/lpencerdas_1.png)
 ### Implementasi Basis Data Terdistribusi dalam Aplikasi
 Berikut langkah-langkah mengimplementasikan basis data terdistribusi dalam LPencerdas.
 1. Instalasi LPencerdas
