@@ -87,9 +87,39 @@ Langkah-langkah yang dilakukan dalam tahapan konfigurasi dijelaskan sebagai beri
   ```
 - Membuat Script Provisioning
   - Provisioning untuk Proxy SQL
-  - Provisioning untuk DB1
-  - Provisioning untuk DB2
-  - Provisioning untuk DB3
+    ```s
+    # Changing the APT sources.list to kambing.ui.ac.id
+    sudo cp '/vagrant/sources.list' '/etc/apt/sources.list'
+
+    # Updating the repo with the new sources
+    sudo apt-get update -y
+
+    cd /tmp
+    curl -OL https://github.com/sysown/proxysql/releases/download/v1.4.4/proxysql_1.4.4-ubuntu16_amd64.deb
+    curl -OL https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-common_5.7.23-1ubuntu16.04_amd64.deb
+    curl -OL https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-community-client_5.7.23-1ubuntu16.04_amd64.deb
+    curl -OL https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-client_5.7.23-1ubuntu16.04_amd64.deb
+
+    sudo apt-get install libaio1
+    sudo apt-get install libmecab2
+
+    sudo dpkg -i proxysql_1.4.4-ubuntu16_amd64.deb
+    sudo dpkg -i mysql-common_5.7.23-1ubuntu16.04_amd64.deb
+    sudo dpkg -i mysql-community-client_5.7.23-1ubuntu16.04_amd64.deb
+    sudo dpkg -i mysql-client_5.7.23-1ubuntu16.04_amd64.deb
+
+    sudo ufw allow 33061
+    sudo ufw allow 3306
+
+    sudo systemctl start proxysql
+    #mysql -u admin -padmin -h 127.0.0.1 -P 6032 < /vagrant/proxysql.sql
+    ```
+  - Provisioning untuk database
+    - DB1
+    - DB2
+    - DB3
+    - Penjelasan:
+
 
 - Membuat File Konfigurasi SQL
   - File Konfigurasi DB1
@@ -113,12 +143,12 @@ Langkah-langkah yang dilakukan dalam tahapan konfigurasi dijelaskan sebagai beri
 
 ## 2. Penggunaan Basis Data Terdistribusi dalam Aplikasi
 ### LPencerdas
-LPencerdas merupakan aplikasi berbasis website milik Laboratorium Pemrograman 1 Informatika ITS yang dibuat menggunakan framework Laravel. LPencerdas sendiri dibangun dengan tujuan agar nantinya wadah internal Informatika ITS membagikan materi dalam bentuk teks, gambar, atau video seputar pelajaran Informatika yang disesuaikan dengan kurikulum Departemen Informatika ITS.
+LPencerdas merupakan aplikasi berbasis website milik Laboratorium Pemrograman 1 Informatika ITS yang dibuat menggunakan framework Laravel. LPencerdas sendiri dibangun dengan tujuan untuk menjadi wadah internal Informatika ITS membagikan materi dalam bentuk teks, gambar, atau video seputar pelajaran Informatika yang disesuaikan dengan kurikulum Departemen Informatika ITS.
 ![lpencerdas_1](screenshoot/lpencerdas_1.png)
 
 ### Implementasi Basis Data Terdistribusi dalam LPencerdas
 Berikut langkah-langkah mengimplementasikan basis data terdistribusi dalam LPencerdas.
-1. Instalasi LPencerdas
+1. Instalasi LPencerdas<br>
 Instalasi LPencerdas diawali dengan meng-_clone_ repo LPencerdas dari akun github lpif. Langkah-langkah yang dilakukan antara lain dengan memasukkan inputan di bawah ini ke dalam _command line_.
 ```
 git clone https://github.com/lpif/lpencerdas.git
@@ -127,7 +157,7 @@ composer dump-autoload
 cp .env.example .env
 ```
 
-2. Mengubah file .env
+2. Mengubah file .env<br>
 Ubah konfigurasi awal yang sudah ada pada file ```.env``` menjadi:
 ```s
 DB_CONNECTION=mysql
@@ -142,17 +172,17 @@ DB_PASSWORD=password
 - `DB_DATABASE` disesuaikan dengan database yang dibutuhkan oleh aplikasi
 - `DB_USERNAME` dan `DB_PASSWORD` disesuaikan dengan user dan password yang dibuat pada file [`create_proxysql_user.sql`](https://github.com/dnirmalasari18/bdt-multimaster/blob/master/config/create_proxysql_user.sql)
 
-3. Melakukan _generating key_
+3. Melakukan _generating key_<br>
 _Generating key_ dilakukan dengan menjalankan `php artisan key:generate` pada _command line_. 
 
-4. Menjalankan _Laravel Migration_ dan _Seeding_
-_Laravel Migration_ dan _Seeding_ merupakan fitur dari laravel yang mampu membantu _developer_ untuk membangun _database_ yang mencakup command `_CREATE_`, `_DROP_`, serta `_INSERT_`. Langkah-langkah yang dilakukan antara lain dengan memasukkan inputan di bawah ini ke dalam _command line_.
+4. Menjalankan _Laravel Migration_ dan _Seeding_<br>
+_Laravel Migration_ dan _Seeding_ merupakan fitur dari laravel yang mampu membantu _developer_ untuk membangun _database_ yang mencakup command _`create`_, _`drop`_, serta _`insert`_. Langkah-langkah yang dilakukan antara lain dengan memasukkan inputan di bawah ini ke dalam _command line_.
 ```
 php artisan migrate
 php artisan db:seed
 ```
 
-5. Menjalankan aplikasi
+5. Menjalankan aplikasi<br>
 Jalankan `php artisan serve` pada _command line_ untuk menjalankan aplikasi
 
 
