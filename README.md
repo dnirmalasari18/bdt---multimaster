@@ -36,7 +36,7 @@ Aplikasi yang perlu diinstall sebelumnya:
 Langkah-langkah yang dilakukan dalam tahapan konfigurasi dijelaskan sebagai berikut.
 - Membuat ```VagrantFile```<br>
   Vagrantfile dibuat dengan mengetikkan ```vagrant init``` pada command line. Setelahnya, vagrantfile akan terbuat pada direktori dimana command tersebut dijalankan.
-- Mengubah Vagrantfile sesuai dengan rancangan Infrastruktur yang ada pada gambar[!infrastruktur] di atas.
+- Mengubah Vagrantfile sesuai dengan rancangan Infrastruktur yang ada pada gambar[!infrastruktur].
 ## 2. Penggunaan Basis Data Terdistribusi dalam Aplikasi
 ### LPencerdas
 LPencerdas merupakan aplikasi berbasis website milik Laboratorium Pemrograman 1 Informatika ITS yang dibuat menggunakan framework Laravel. LPencerdas sendiri dibangun dengan tujuan agar nantinya wadah internal Informatika ITS membagikan materi dalam bentuk teks, gambar, atau video seputar pelajaran Informatika yang disesuaikan dengan kurikulum Departemen Informatika ITS.
