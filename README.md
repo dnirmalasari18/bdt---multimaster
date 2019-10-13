@@ -563,15 +563,17 @@ Langkah-langkah yang dilakukan dalam tahapan konfigurasi dijelaskan sebagai beri
 
 - Menjalankan Vagrant
   - Menjalankan `Vagrant Up` pada _command line_
-  - Mengecek apakah vagrant sudah berjalan dengan baik dengan cara menjalankan `Vagrant Status` pada _command line_ atau dengan mengecek pada Virtual Machine secara lanagsung
+  - Mengecek apakah vagrant sudah berjalan dengan baik dengan cara menjalankan `Vagrant Status` pada _command line_ atau dengan mengecek pada Virtual Machine secara langsung
 
 - Melakukan konfigurasi tambahan untuk proxysql.sql
   - Masuk ke Virtual Machine ProxySql
-    <br>
-    ```vagrant ssh proxy```
-  - Masukkan file `proxysql.sql` yang telah dibuat tadi sebagai provisioning tambahan.
-    <br>
-    ```mysql -u admin -padmin -h 127.0.0.1 -P 6032 < /vagrant/proxysql.sql```
+    ```
+    vagrant ssh proxy
+    ```
+  - Masukkan file `proxysql.sql` yang telah dibuat tadi sebagai provisioning tambahan
+    ```
+    mysql -u admin -padmin -h 127.0.0.1 -P 6032 < /vagrant/proxysql.sql
+    ```
 
 ## 2. Penggunaan Basis Data Terdistribusi dalam Aplikasi
 ### LPencerdas
