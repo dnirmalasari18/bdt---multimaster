@@ -572,7 +572,7 @@ Langkah-langkah yang dilakukan dalam tahapan konfigurasi dijelaskan sebagai beri
     ```
     vagrant ssh proxy
     ```
-    ![vagrant_ssh_proxy](screenshoot/vagrant_ssh_proxy.png)
+    ![vagrant_ssh_proxy](screenshoot/vagrant_ssh_proxy.PNG)
   - Masukkan file `proxysql.sql` yang telah dibuat tadi sebagai provisioning tambahan
     ```
     mysql -u admin -padmin -h 127.0.0.1 -P 6032 < /vagrant/proxysql.sql
@@ -593,8 +593,8 @@ Berikut langkah-langkah mengimplementasikan basis data terdistribusi dalam LPenc
     composer dump-autoload
     cp .env.example .env
     ```
-    ![lpencerdas_composer_install](screenshoot/lpencerdas_composerinstall.png)
-    ![lpencerdas_composer_dumpatuoload](screenshoot/lpencerdas_composerdumpautoload.png)
+    ![lpencerdas_composer_install](screenshoot/lpencerdas_composerinstall.PNG)
+    ![lpencerdas_composer_dumpatuoload](screenshoot/lpencerdas_composerdumpautoload.PNG)
 
 2. Mengubah file .env<br>
     Ubah konfigurasi awal yang sudah ada pada file ```.env``` menjadi:
@@ -613,7 +613,7 @@ Berikut langkah-langkah mengimplementasikan basis data terdistribusi dalam LPenc
 
 3. Melakukan _generating key_<br>
 _Generating key_ dilakukan dengan menjalankan `php artisan key:generate` pada _command line_. <br>
-![lpencerdas_key](screenshoot/lpencerdas_key.png)
+![lpencerdas_key](screenshoot/lpencerdas_key.PNG)
 
 4. Menjalankan _Laravel Migration_ dan _Seeding_<br>
       _Laravel Migration_ dan _Seeding_ merupakan fitur dari laravel yang mampu membantu _developer_ untuk membangun _database_ yang mencakup command _`create`_, _`drop`_, serta _`insert`_. Langkah-langkah yang dilakukan antara lain dengan memasukkan inputan di bawah ini ke dalam _command line_.
@@ -621,12 +621,12 @@ _Generating key_ dilakukan dengan menjalankan `php artisan key:generate` pada _c
       php artisan migrate
       php artisan db:seed
       ```
-      ![lpencerdas_migration](screenshoot/lpencerdas_migration.png)
-      ![lpencerdas_seeding](screenshoot/lpencerdas_seeding.png)
+      ![lpencerdas_migration](screenshoot/lpencerdas_migration.PNG)
+      ![lpencerdas_seeding](screenshoot/lpencerdas_seeding.PNG)
 
 5. Menjalankan aplikasi pada localhost<br>
   Jalankan `php artisan serve` pada _command line_ untuk menjalankan aplikasi
-  ![lpencerdas_serve](screenshoot/lpencerdas_serve.png)
+  ![lpencerdas_serve](screenshoot/lpencerdas_serve.PNG)
 
 ## 3. Simulasi Fail Over
 1. Mematikan Salah Satu Server Basis Data<br>
@@ -635,25 +635,25 @@ _Generating key_ dilakukan dengan menjalankan `php artisan key:generate` pada _c
     ```
     vagrant ssh db2
     ```
-    ![vagrant_ssh_db2](screenshoot/vagrant_ssh_db2.png)
+    ![vagrant_ssh_db2](screenshoot/vagrant_ssh_db2.PNG)
 
     ```
     sudo service mysql stop
     sudo service mysql start
     ```
-    ![vagrant_db2_stop_status](screenshoot/vagrant_db2_stop_status.png)
+    ![vagrant_db2_stop_status](screenshoot/vagrant_db2_stop_status.PNG)
 
     Untuk memastikannya, dapat dengan masuk ke proxy
     ```
     vagrant_ssh_proxy
     ```
-    ![vagrant_ssh_proxy](screenshoot/vagrant_ssh_proxy.png)
+    ![vagrant_ssh_proxy](screenshoot/vagrant_ssh_proxy.PNG)
     Lalu masuk ke mySQL dan mengecek dengan cara
     ```
     mysql -u admin -ppassword -h 127.0.0.1 -P 6032 --prompt='ProxySQLAdmin>'
     SELECT hostgroup_id, hostname, status FROM runtime_mysql_servers;
     ```
-    ![vagrant_cek_hostingan](screenshoot/vagrant_cek_hostingan.png)
+    ![vagrant_cek_hostingan](screenshoot/vagrant_cek_hostingan.PNG)
 
 2. Melakukan Pengubahan Data pada Aplikasi<br>
   Di sini dilakukan ddengan menambahkan data
@@ -665,21 +665,21 @@ _Generating key_ dilakukan dengan menjalankan `php artisan key:generate` pada _c
       sudo service mysql start
       sudo service mysql status
       ```
-      ![vagrant_db2_start_status](screenshoot/vagrant_db2_start_status.png)
+      ![vagrant_db2_start_status](screenshoot/vagrant_db2_start_status.PNG)
 
     - Masuk ke mySQL dan lakukan query untuk mengecek replikasi
       ```
       mysql -u user -p
       ```
       lalu masukkan password untuk masuk ke mySQL
-      ![db2_mysql](screenshoot/db2_mysql.png)
+      ![db2_mysql](screenshoot/db2_mysql.PNG)
 
       lalu query sebagai berikut
       ```sql
       use lpencerdas;
       select courses.* from courses, specializations where specializations.name='Komputasi Berbasis Jaringan' and specializations.id=courses.specialization_id;
       ```
-      ![use_lpencerdas](screenshoot/use_lpencerdas.png)
-      ![query_fail_over](screenshoot/query_fail_over.png)
+      ![use_lpencerdas](screenshoot/use_lpencerdas.PNG)
+      ![query_fail_over](screenshoot/query_fail_over.PNG)
 
       Data dummy yang tadi dibuat di website pada saat server db2 sudah tereplikasi.
