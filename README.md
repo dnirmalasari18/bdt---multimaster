@@ -86,7 +86,7 @@ Langkah-langkah yang dilakukan dalam tahapan konfigurasi dijelaskan sebagai beri
   end
   ```
 - Membuat Script Provisioning
-  - Provisioning untuk Proxy SQL pada file `deployProxySQL.sh`
+  - Provisioning untuk ProxySQL pada file `deployProxySQL.sh`
     ```bash
     # Changing the APT sources.list to kambing.ui.ac.id
     sudo cp '/vagrant/sources.list' '/etc/apt/sources.list'
@@ -562,14 +562,17 @@ Langkah-langkah yang dilakukan dalam tahapan konfigurasi dijelaskan sebagai beri
     ```
 
 - Menjalankan Vagrant
-  - Menjalankan `Vagrant Up` pada _command line_
-  - Mengecek apakah vagrant sudah berjalan dengan baik dengan cara menjalankan `Vagrant Status` pada _command line_ atau dengan mengecek pada Virtual Machine secara langsung
+  - Menjalankan `vagrant Up` pada _command line_<br>
+    ![vagrant_up](screenshoot/vagrant_up.PNG)
+  - Mengecek apakah vagrant sudah berjalan dengan baik dengan cara menjalankan `vagrant Status` pada _command line_
+    ![vagrant_status](screenshoot/vagrant_status.PNG)
 
 - Melakukan konfigurasi tambahan untuk proxysql.sql
   - Masuk ke Virtual Machine ProxySql
     ```
     vagrant ssh proxy
     ```
+    ![vagrant_ssh_proxy](screenshoot/vagrant_ssh_proxy.png)
   - Masukkan file `proxysql.sql` yang telah dibuat tadi sebagai provisioning tambahan
     ```
     mysql -u admin -padmin -h 127.0.0.1 -P 6032 < /vagrant/proxysql.sql
@@ -583,44 +586,100 @@ LPencerdas merupakan aplikasi berbasis website milik Laboratorium Pemrograman 1 
 ### Implementasi Basis Data Terdistribusi dalam LPencerdas
 Berikut langkah-langkah mengimplementasikan basis data terdistribusi dalam LPencerdas.
 1. Instalasi LPencerdas<br>
-Instalasi LPencerdas diawali dengan meng-_clone_ repo LPencerdas dari akun github lpif. Langkah-langkah yang dilakukan antara lain dengan memasukkan inputan di bawah ini ke dalam _command line_.
-```
-git clone https://github.com/lpif/lpencerdas.git
-composer install
-composer dump-autoload
-cp .env.example .env
-```
+    Instalasi LPencerdas diawali dengan meng-_clone_ repo LPencerdas dari akun github lpif. Langkah-langkah yang dilakukan antara lain dengan memasukkan inputan di bawah ini ke dalam _command line_.
+    ```
+    git clone https://github.com/lpif/lpencerdas.git
+    composer install
+    composer dump-autoload
+    cp .env.example .env
+    ```
+    ![lpencerdas_composer_install](screenshoot/lpencerdas_composerinstall.png)
+    ![lpencerdas_composer_dumpatuoload](screenshoot/lpencerdas_composerdumpautoload.png)
 
 2. Mengubah file .env<br>
-Ubah konfigurasi awal yang sudah ada pada file ```.env``` menjadi:
-```s
-DB_CONNECTION=mysql
-DB_HOST=192.168.16.115
-DB_PORT=6033
-DB_DATABASE=lpencerdas
-DB_USERNAME=user
-DB_PASSWORD=password
-```
-- `DB_HOST` disesuaikan dengan IP dari ProxySQL
-- `DB_PORT` disesuaikan dengan port dari ProxySQL
-- `DB_DATABASE` disesuaikan dengan database yang dibutuhkan oleh aplikasi
-- `DB_USERNAME` dan `DB_PASSWORD` disesuaikan dengan user dan password yang dibuat pada file [`create_proxysql_user.sql`](https://github.com/dnirmalasari18/bdt-multimaster/blob/master/config/create_proxysql_user.sql)
+    Ubah konfigurasi awal yang sudah ada pada file ```.env``` menjadi:
+    ```s
+    DB_CONNECTION=mysql
+    DB_HOST=192.168.16.115
+    DB_PORT=6033
+    DB_DATABASE=lpencerdas
+    DB_USERNAME=user
+    DB_PASSWORD=password
+    ```
+    - `DB_HOST` disesuaikan dengan IP dari ProxySQL
+    - `DB_PORT` disesuaikan dengan port dari ProxySQL
+    - `DB_DATABASE` disesuaikan dengan database yang dibutuhkan oleh aplikasi
+    - `DB_USERNAME` dan `DB_PASSWORD` disesuaikan dengan user dan password yang dibuat pada file [`create_proxysql_user.sql`](https://github.com/dnirmalasari18/bdt-multimaster/blob/master/config/create_proxysql_user.sql)
 
 3. Melakukan _generating key_<br>
-_Generating key_ dilakukan dengan menjalankan `php artisan key:generate` pada _command line_. 
+_Generating key_ dilakukan dengan menjalankan `php artisan key:generate` pada _command line_. <br>
+![lpencerdas_key](screenshoot/lpencerdas_key.png)
 
 4. Menjalankan _Laravel Migration_ dan _Seeding_<br>
-_Laravel Migration_ dan _Seeding_ merupakan fitur dari laravel yang mampu membantu _developer_ untuk membangun _database_ yang mencakup command _`create`_, _`drop`_, serta _`insert`_. Langkah-langkah yang dilakukan antara lain dengan memasukkan inputan di bawah ini ke dalam _command line_.
-```
-php artisan migrate
-php artisan db:seed
-```
+      _Laravel Migration_ dan _Seeding_ merupakan fitur dari laravel yang mampu membantu _developer_ untuk membangun _database_ yang mencakup command _`create`_, _`drop`_, serta _`insert`_. Langkah-langkah yang dilakukan antara lain dengan memasukkan inputan di bawah ini ke dalam _command line_.
+      ```
+      php artisan migrate
+      php artisan db:seed
+      ```
+      ![lpencerdas_migration](screenshoot/lpencerdas_migration.png)
+      ![lpencerdas_seeding](screenshoot/lpencerdas_seeding.png)
 
 5. Menjalankan aplikasi pada localhost<br>
-Jalankan `php artisan serve` pada _command line_ untuk menjalankan aplikasi
-
+  Jalankan `php artisan serve` pada _command line_ untuk menjalankan aplikasi
+  ![lpencerdas_serve](screenshoot/lpencerdas_serve.png)
 
 ## 3. Simulasi Fail Over
-1. Mematikan Salah Satu Server Basis Data
-2. Melakukan Pengubahan Data pada Aplikasi
+1. Mematikan Salah Satu Server Basis Data<br>
+    Server basis data yang dimatikan dalam simulasi ini ialah db2.
+    Pertama masuk dulu ke db2 dengan
+    ```
+    vagrant ssh db2
+    ```
+    ![vagrant_ssh_db2](screenshoot/vagrant_ssh_db2.png)
+
+    ```
+    sudo service mysql stop
+    sudo service mysql start
+    ```
+    ![vagrant_db2_stop_status](screenshoot/vagrant_db2_stop_status.png)
+
+    Untuk memastikannya, dapat dengan masuk ke proxy
+    ```
+    vagrant_ssh_proxy
+    ```
+    ![vagrant_ssh_proxy](screenshoot/vagrant_ssh_proxy.png)
+    Lalu masuk ke mySQL dan mengecek dengan cara
+    ```
+    mysql -u admin -ppassword -h 127.0.0.1 -P 6032 --prompt='ProxySQLAdmin>'
+    SELECT hostgroup_id, hostname, status FROM runtime_mysql_servers;
+    ```
+    ![vagrant_cek_hostingan](screenshoot/vagrant_cek_hostingan.png)
+
+2. Melakukan Pengubahan Data pada Aplikasi<br>
+  Di sini dilakukan ddengan menambahkan data
+  ![lpencerdas_simulasi](screenshoot/lpencerdas_simulasi.png)
+
 3. Mengaktifkan Kembali Server yang Dimatikan dan Verifikasi Hasil Replikasi
+    - Nyalakan mySQL yang tadi dimatikan
+      ```
+      sudo service mysql start
+      sudo service mysql status
+      ```
+      ![vagrant_db2_start_status](screenshoot/vagrant_db2_start_status.png)
+
+    - Masuk ke mySQL dan lakukan query untuk mengecek replikasi
+      ```
+      mysql -u user -p
+      ```
+      lalu masukkan password untuk masuk ke mySQL
+      ![db2_mysql](screenshoot/db2_mysql.png)
+
+      lalu query sebagai berikut
+      ```sql
+      use lpencerdas;
+      select courses.* from courses, specializations where specializations.name='Komputasi Berbasis Jaringan' and specializations.id=courses.specialization_id;
+      ```
+      ![use_lpencerdas](screenshoot/use_lpencerdas.png)
+      ![query_fail_over](screenshoot/query_fail_over.png)
+
+      Data dummy yang tadi dibuat di website pada saat server db2 sudah tereplikasi.
