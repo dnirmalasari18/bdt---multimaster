@@ -564,7 +564,7 @@ Langkah-langkah yang dilakukan dalam tahapan konfigurasi dijelaskan sebagai beri
 - Menjalankan Vagrant
   - Menjalankan `vagrant Up` pada _command line_<br>
     ![vagrant_up](screenshoot/vagrant_up.PNG)
-  - Mengecek apakah vagrant sudah berjalan dengan baik dengan cara menjalankan `vagrant Status` pada _command line_
+  - Mengecek apakah vagrant sudah berjalan dengan baik dengan cara menjalankan `vagrant Status` pada _command line_<br>
     ![vagrant_status](screenshoot/vagrant_status.PNG)
 
 - Melakukan konfigurasi tambahan untuk proxysql.sql
